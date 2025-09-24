@@ -13,7 +13,7 @@ For weight, BMI, blood pressure (systolic and diastolic), A1C, LDL, HDL, triglyc
 Longitudinal columns are sparse: labs and vitals often lack follow-up entries, so any descriptive statistics must filter for non-null values. Boolean fields mix string states such as `"1"`/`"0"` and `"true"`/`"false"`, requiring normalization before aggregation. Secondary condition lists are stored as bracketed strings and will need parsing to explode into individual tags. Cleaning these facets will make the dataset ready for robust segmentation, outcome tracking, and payer-level reporting.
 
 ## Codex Runbook
-1. Run `git lfs pull` so large assets (`data.csv`, `nourish_members.sqlite`) are downloaded.
-2. Install DuckDB bindings if missing: `pip install duckdb`.
-3. Materialize a Parquet snapshot for fast analytics: `python scripts/prepare_parquet.py --csv data.csv --out artifacts/nourish_members.parquet` (creates directories as needed; defaults to zstd compression).
-4. Point notebooks/queries at the Parquet file or DuckDB to avoid re-reading the raw CSV each run.
+1. The raw CSV (`data.csv`) and SQLite snapshot (`nourish_members.sqlite`) are committed directly—no Git LFS fetch needed. Expect ~150 MB on first clone.
+2. Install DuckDB bindings if you need the Parquet helper: `pip install duckdb`.
+3. Create a Parquet snapshot for faster analytics: `python scripts/prepare_parquet.py --csv data.csv --out artifacts/nourish_members.parquet` (directories auto-create; defaults to zstd compression).
+4. Point notebooks or SQL runners at the Parquet or SQLite artifacts to avoid re-reading the large CSV each session.

@@ -2,7 +2,7 @@
 """Utility to materialize the Nourish dataset as Parquet for fast analytics.
 
 Usage:
-    python scripts/prepare_parquet.py --csv data.csv --out data/parquet/nourish_members.parquet
+    python scripts/prepare_parquet.py --csv data.csv --out artifacts/nourish_members.parquet
 
 All arguments are optional; defaults assume the repository root paths. The script
 requires the DuckDB Python module (`pip install duckdb`). We use DuckDB's
@@ -31,7 +31,7 @@ def parse_args() -> argparse.Namespace:
         "--csv",
         type=Path,
         default=Path("data.csv"),
-        help="Path to the CSV exported from Git LFS",
+        help="Path to the CSV export committed in the repository",
     )
     parser.add_argument(
         "--out",
@@ -51,7 +51,9 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     if not args.csv.exists():
-        raise SystemExit(f"CSV not found at {args.csv}. Run `git lfs pull` first.")
+        raise SystemExit(
+            f"CSV not found at {args.csv}. Ensure the dataset is present before running."
+        )
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
 

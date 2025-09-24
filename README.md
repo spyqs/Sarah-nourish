@@ -2,17 +2,14 @@
 
 ## Working with the dataset
 
-This repo stores the large CSV and SQLite snapshots via Git LFS. After cloning, run:
+The repository ships with the raw CSV (`data.csv`) and SQLite snapshot (`nourish_members.sqlite`) checked in directly. No Git LFS step is required—just clone or pull as usual. Both files are ~70–80 MB, so the first clone may take a moment.
 
-```bash
-git lfs install
-git lfs pull
-```
+## Optional: create a Parquet copy
 
-To materialize an analytics-friendly Parquet copy inside your ephemeral environment, use the helper script (requires `pip install duckdb`):
+For faster analytics inside ephemeral environments you can materialize a compressed Parquet file (requires `pip install duckdb`):
 
 ```bash
 python scripts/prepare_parquet.py --csv data.csv --out artifacts/nourish_members.parquet
 ```
 
-Adjust `--out` if you want the file in a different location or compression format.
+Adjust the output path or compression options as needed.
